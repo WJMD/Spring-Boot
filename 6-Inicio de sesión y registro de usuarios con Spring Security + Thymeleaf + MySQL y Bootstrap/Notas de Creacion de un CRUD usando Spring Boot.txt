@@ -1,0 +1,121 @@
+Creacion de un CRUD usando Spring Boot con MySql + Thymeleaf y Bootstrap
+
+1- Crear projecto:
+	tipo :[spirng starter Project]
+	nombre : CRUD en Springt Boot
+2- seleccionar estas dependencias:
+	-Spring Data Jpa
+	-Thymeleaf
+	-Spring Web
+	-Spring Boot DevTools
+	-MySQL Driver
+	*significado de las dependencia al final de la hoja.*
+
+3- Crear Base de datos [db-crud-springboot].
+4- crear la conexion a la base de datos con el proyecto usando el archivo application.propierties
+	*mas detalles abajo*
+
+
+||#2#||
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+// Explicacion de las dependencias utilizadas en este proyecto.
+// sobre de que son, para que se utlizan.
+
+	Spring Data JPA:
+
+Uso: Spring Data JPA es un módulo de Spring que simplifica el acceso y la manipulación 
+de bases de datos relacionales utilizando JPA (Java Persistence API).
+
+Descripción: Permite crear fácilmente repositorios y consultas basadas en métodos para interactuar 
+con la base de datos. Abstrae gran parte de la lógica de acceso a datos y facilita la implementación de 
+operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sin la necesidad de escribir consultas SQL personalizadas.
+
+	Thymeleaf:
+
+Uso: Thymeleaf es un motor de plantillas para generar vistas HTML en aplicaciones web de Spring Boot.
+
+Descripción: Permite la integración de plantillas HTML con contenido dinámico utilizando sintaxis simple y legible. 
+Thymeleaf se puede utilizar tanto en el lado del cliente (renderizado en el navegador) como en el lado del servidor 
+(pre-renderizado en el servidor antes de enviar la respuesta al cliente).
+
+	Spring Web:
+
+Uso: Spring Web es un módulo que proporciona funcionalidades para desarrollar aplicaciones web en Spring Boot.
+
+Descripción: Ofrece una amplia variedad de características para crear aplicaciones web, como el manejo de solicitudes HTTP, 
+la creación de controladores y el soporte para la construcción de RESTful APIs. Esencialmente, es la base para construir aplicaciones web en Spring Boot.
+
+	Spring Boot DevTools:
+
+Uso: Spring Boot DevTools es una herramienta diseñada para mejorar la productividad en el desarrollo de aplicaciones Spring Boot.
+
+Descripción: Proporciona diversas funcionalidades, como la reinicialización automática de la aplicación cuando se realizan cambios 
+en el código fuente (live reload), la configuración automática de entornos de desarrollo, la habilitación de perfiles específicos, entre otras. 
+Estas características facilitan el ciclo de desarrollo y la detección temprana de problemas.
+
+	MySQL Driver:
+
+Uso: El MySQL Driver es una dependencia que permite la conexión y comunicación con una base de datos MySQL desde una aplicación de Spring Boot.
+
+Descripción: El driver actúa como un puente entre la aplicación y la base de datos MySQL, permitiendo enviar y recibir datos entre ambos. 
+Es esencial para que la aplicación pueda interactuar con la base de datos MySQL específica que esté configurada.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#4#||
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+// Explicacion sobre la configuracion sobre la conexion a la base de datos con el proyecto en application.propierties
+	
+	-Esta es la configuracion de los propierties utilizando una bade datos en la nube:
+
+	spring.datasource.url = jdbc:mysql://localhost:3306/registro_usuarios_sprintboot
+	spring.datasource.username = root
+	spring.datasource.password = 12345
+
+
+	##Hibernate Properties
+	# The SQL  dialet make Hibernate generate better SQL for chosen databse
+	spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySql5InnoDBDialect
+
+	# Hibernate dll auto (create, create-drop. validate, update)
+	spring.jpa.hibernate.ddl-auto=update
+
+	logging.level.org.hibernate.SQL=DEBUG
+	logging.level.org.hibernate.type=TRACE
+
+--Explicacion breve de cada linea para entender su funcionamiento y para que utilizan
+
+	spring.datasource.url: 
+Esta propiedad define la URL de conexión a la base de datos. En este caso, se utiliza el protocolo JDBC para conectarse a una base de datos MySQL.
+La URL debe contener la información necesaria para acceder a la base de datos en la nube, como el host, puerto y nombre de la base de datos.
+
+	spring.datasource.username:
+Aquí se especifica el nombre de usuario para acceder a la base de datos. Es el nombre de usuario que se utilizará 
+para autenticarse en el servidor de la base de datos.
+
+	spring.datasource.password:
+Esta línea contiene la contraseña que corresponde al nombre de usuario proporcionado. Es la contraseña que se utilizará 
+para autenticar la conexión con el servidor de la base de datos.
+
+	spring.jpa.properties.hibernate.dialect:
+Esta propiedad define el dialecto de SQL que usará Hibernate para generar consultas específicas del motor de base de datos.
+ En este caso, se configura para utilizar el dialecto de MySQL.
+
+	spring.jpa.hibernate.ddl-auto:
+Esta línea configura la forma en que Hibernate manejará el esquema de la base de datos. En este caso, se establece en "update", 
+lo que significa que Hibernate actualizará automáticamente la estructura de la base de datos para que coincida con las entidades (tablas) 
+definidas en el código Java. Sin embargo, ten en cuenta que esta configuración está destinada para desarrollo, y en producción, es recomendable 
+utilizar "validate" o "none" para evitar modificaciones accidentales de la estructura de la base de datos.
+
+	logging.level.org.hibernate.SQL:
+Esta propiedad configura el nivel de registro para las consultas SQL generadas por Hibernate. En este caso, se establece en "DEBUG", 
+lo que significa que se registrarán las consultas SQL en el nivel de depuración.
+
+	logging.level.org.hibernate.type:
+Esta línea configura el nivel de registro para los parámetros de las consultas SQL generadas por Hibernate. En este caso, se establece en "TRACE", 
+lo que significa que se registrarán los parámetros de las consultas SQL en el nivel de traza.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
