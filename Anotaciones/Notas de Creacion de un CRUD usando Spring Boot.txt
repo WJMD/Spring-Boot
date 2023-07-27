@@ -43,10 +43,49 @@ Creacion de un CRUD usando Spring Boot con MySql + Thymeleaf y Bootstrap
 
 8- Crea un nuevo Package [servicio] esta sera para las interfaces.
 9- Crea un archivo INTERFACE [EstudianteServicio]
+	a) creamos una variable public del tipo "List" (java.utils) que importe la clase Estudiante:| List<Estudiante> | con el nombre de listarTodosLosEstudiantes();
+10-Crea una clase en la package de [servicio], llamada [listarTodosLosEstudiantesImpl]. El "Impl" es por implement ya que esta sera una clase que implementara de [EstudianteServicio].
+	-para indicar que esto se guarde en la fabrica de Spring le ponemos la anotacion de "@Service" ya que este sera el servicio. Luego implemntamos todos los metodos de la interface [EstudianteServicio]. 
+	-al implmentar los metodos de [EstudianteServicio] se creara automaticamente metodo con la anotacion "Override" asi :
+
+	@Override
+	public List<Estudiante> listarTodosLosEstudiantes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+11- Crea un nuevo Package [repositorio] esta sera para los Repositorios.
+12- crea una Interface [EstudianteRepositorio] y le agregamos la anotacion "@Repository". tambien le decimos a la interface que va heredar "extends" de {JpaRepository<T, ID>}
+ 	procedemos la "T2 por la clase [Estudiante] y "ID" por el tipo de datos que contiene nuestro "id" que es |Long|{JpaRepository<Estudiante, Long>}.
+
+13- volvemos a [listarTodosLosEstudiantesImpl] e inyectamos el repositorio [EstudianteRepositorio]. con la anotacio "@Autowired" y creamos |private EstudianteRepositorio repositorio;|
+
+14- Tomando la implentacion de {listarTodosLosEstudiantes()} cambiaremos el null (return null;) por un (return repositorio.findAll();)
+	-| findAll();| Este método se utiliza para recuperar todos los registros [Estudiantes] almacenados en la tabla correspondiente en la base de datos.
+
+15-Crea un nuevo Package [ controlador ].
+16- crea una clase [ EstudianteControlador ] le agregas la anotacion "@Controller".
+17- creamos un "@AutoWired" de [EstudianteServicio] con nombre (servicio).
+18- creamos un metodos publico del tipo 'String' a este lo llamaremos (listarEstudiantes) con una petiocion Get utilizando la anotacion "@GetMapping" y URL "/estudiantes" o otra.
+	Todo esto con un |return "estudiantes"| para que nos retorna un archivo HTML con el mismo nombre.
+	
+	18.1- se le agregara el argumento (Model modelo) de "import org.springframework.ui.Model;" .
+	-El argumento modelo es un objeto de tipo Model proporcionado por Spring MVC. El modelo es una estructura de datos que se utiliza para pasar información desde el
+	 controlador a la vista (plantilla HTML) que se va a renderizar y presentar al usuario.
+
+	18.2- se utilizara la variable "modelo" y luego se llamara al metodo "addAttribute" de (.addAttribute(String attributeName, @Nullable Object attributeValue)).
+
+	-El motodo deberia verse asi:
+	
+	@GetMapping({"/estudiantes","/"})
+	public String  listarEstudiantes(Model modelo) {
+		modelo.addAttribute("estudiante", servicio.listarTodosLosEstudiantes());
+		return "estudiantes";//Nos retorna al achivo estudiantes
+	}
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ||#2#||
---------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Explicacion de las dependencias utilizadas en este proyecto.
 // sobre de que son, para que se utlizan.
 
