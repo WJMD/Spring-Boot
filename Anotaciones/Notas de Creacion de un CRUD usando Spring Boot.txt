@@ -14,8 +14,37 @@ Creacion de un CRUD usando Spring Boot con MySql + Thymeleaf y Bootstrap
 3- Crear Base de datos [db-crud-springboot].
 4- crear la conexion a la base de datos con el proyecto usando el archivo application.propierties
 	*mas detalles abajo*
+5- Crea un nuevo 'package' con el nombre [entidad].
+6- crea una clase [Estudiante].
+	Esta clase se le agregara las anotaciones {@Entity | @Table(name="estudiantes")}
 
+	A)crea las variables que haran las representaciones de las columnas en la tabla de la base de datos
+	
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
+	
+		@Column(name = "nombre",nullable = false, length=50)
+		private String nombre;
+	
+		@Column(name = "apellido",nullable = false, length=50)
+		private String apellido;
+	
+		@Column(name = "email",nullable = false, length=50, unique =true)
+		private String email;
+		(!!!Habra una seccion donde se explicara el uso y la descripcion de las anotaciones
+		utilizadas ||#7.1||)
+	B)Se crean los constructores... 
+		uno vacio y otro
+		(Explicacion de Constructores ||#7.2||)
 
+	C) se generan los [setter y getter] de todos
+	
+
+8- Crea un nuevo Package [servicio] esta sera para las interfaces.
+9- Crea un archivo INTERFACE [EstudianteServicio]
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ||#2#||
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 // Explicacion de las dependencias utilizadas en este proyecto.
@@ -60,10 +89,10 @@ Uso: El MySQL Driver es una dependencia que permite la conexión y comunicación
 Descripción: El driver actúa como un puente entre la aplicación y la base de datos MySQL, permitiendo enviar y recibir datos entre ambos. 
 Es esencial para que la aplicación pueda interactuar con la base de datos MySQL específica que esté configurada.
 
---------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ||#4#||
---------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Explicacion sobre la configuracion sobre la conexion a la base de datos con el proyecto en application.propierties
 	
 	-Esta es la configuracion de los propierties utilizando una bade datos en la nube:
@@ -115,7 +144,68 @@ lo que significa que se registrarán las consultas SQL en el nivel de depuració
 Esta línea configura el nivel de registro para los parámetros de las consultas SQL generadas por Hibernate. En este caso, se establece en "TRACE", 
 lo que significa que se registrarán los parámetros de las consultas SQL en el nivel de traza.
 
---------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+||#7.1#|| Entidad Estudiante -->Entidades
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Las entidades en el contexto de Java y JPA (Java Persistence API) son clases que representan tablas de bases de datos y permiten mapear los datos
+ almacenados en esas tablas a objetos de Java. En tu caso, has creado una entidad llamada "Estudiante" que representa la tabla "estudiantes" en la base de datos.
 
+Vamos a describir el uso y significado de cada anotación y campo en la clase "Estudiante":
+
+1. `@Entity`: Esta anotación marca la clase "Estudiante" como una entidad de JPA. Indica que esta clase se asociará con una tabla en la base de datos.
+
+2. `@Table(name="estudiantes")`: Esta anotación especifica el nombre de la tabla en la base de datos con la que se mapeará la entidad "Estudiante".
+	 En este caso, la tabla se llama "estudiantes".
+
+3. `@Id`: Esta anotación marca el campo "id" como la clave primaria de la tabla. La clave primaria es un valor único que identifica de forma única cada registro en la tabla.
+
+4. `@GeneratedValue(strategy = GenerationType.IDENTITY)`: Esta anotación especifica cómo se generará automáticamente el valor del campo "id" al insertar un nuevo registro en la tabla.
+	 En este caso, se utiliza "GenerationType.IDENTITY", que generalmente se asocia con columnas de autoincremento en la base de datos. Cuando se inserta un nuevo registro,
+	 la base de datos se encargará de asignar automáticamente un valor único al campo "id".
+
+5. `@Column`: Esta anotación se utiliza para mapear el campo de la entidad a una columna en la tabla de la base de datos. Aquí, se definen varias propiedades para la columna:
+   - `name = "nombre"`: El nombre de la columna en la tabla se establece como "nombre".
+   - `nullable = false`: Indica que el campo "nombre" no puede contener valores nulos en la base de datos.
+   - `length = 50`: Define la longitud máxima de caracteres que puede tener el campo "nombre".
+
+6. `private String nombre;`: Este campo representa la columna "nombre" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el nombre del estudiante.
+
+7. `private String apellido;`: Este campo representa la columna "apellido" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el apellido del estudiante.
+
+8. `private String email;`: Este campo representa la columna "email" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el correo electrónico del estudiante.
+ La anotación `unique = true` garantiza que cada dirección de correo electrónico sea única en la tabla.
+
+En resumen, la clase "Estudiante" es una entidad de JPA que representa la tabla "estudiantes" en la base de datos. Los campos de la clase se mapean a columnas en la tabla, y
+ las anotaciones proporcionan información adicional sobre cómo se debe realizar el mapeo. Al utilizar JPA y Hibernate (un proveedor de JPA), puedes interactuar con la base de
+ datos utilizando objetos Java, lo que facilita el desarrollo y mantenimiento de aplicaciones relacionales.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#7.2#|| Entidad Estudiante --> Constructores
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+La creación de dos constructores en la clase entidad, uno vacío y otro que acepta todas las variables, es una práctica común y puede tener varias razones:
+
+1. **Requerimientos de JPA y Hibernate**: JPA y los proveedores de JPA, como Hibernate, necesitan un constructor vacío para instanciar las entidades cuando se recuperan de la base de datos.
+ Sin un constructor vacío, JPA no podrá crear instancias de la clase y mapear los datos desde la base de datos. Por lo tanto, es obligatorio proporcionar un constructor sin argumentos.
+
+2. **Facilitar la creación de instancias**: Proporcionar un constructor que acepte todas las variables facilita la creación de instancias de la entidad cuando se quieren insertar nuevos
+ registros en la base de datos. Con un constructor que toma todas las variables, puedes crear objetos "Estudiante" y establecer todas sus propiedades de manera concisa en una sola línea de código.
+
+3. **Inmutabilidad y Validaciones**: Si la clase entidad tiene atributos que no deberían cambiar después de la creación del objeto (por ejemplo, el "id" generado automáticamente),
+ es posible marcar esos atributos como `final` y solo establecerlos a través del constructor. Esto garantiza la inmutabilidad de esos atributos y evita modificaciones accidentales.
+
+4. **Uso de Builder o Patrón Factory**: Al proporcionar un constructor que acepta todas las variables, es más fácil implementar patrones como el patrón Builder o Factory. Estos patrones
+ permiten una creación más flexible y estructurada de objetos complejos.
+
+5. **Claridad y Legibilidad del Código**: Proporcionar ambos constructores puede mejorar la legibilidad del código y facilitar su comprensión para otros desarrolladores. Al tener ambas opciones,
+ el código se vuelve más expresivo y claro sobre cómo se pueden crear instancias de la clase.
+
+En resumen, al proporcionar un constructor vacío y otro que acepte todas las variables, aseguras que la clase entidad cumpla con los requisitos de JPA y facilita la creación de instancias de la entidad,
+ al tiempo que permite mantener una estructura más clara y expresiva del código. Es una buena práctica seguir esta convención para asegurar la correcta interacción entre JPA y las entidades y
+ para mejorar la legibilidad y mantenibilidad del código.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
