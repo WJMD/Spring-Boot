@@ -39,6 +39,13 @@ public class Estudiante {
 	
 	
 
+	public Estudiante(String nombre, String apellido, String email) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+	}
+
 	public Long getId() {
 		return id;
 	}
