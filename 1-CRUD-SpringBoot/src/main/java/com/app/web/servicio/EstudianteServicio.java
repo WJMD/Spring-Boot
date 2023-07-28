@@ -10,4 +10,10 @@ public interface EstudianteServicio {
 	
 	public Estudiante guardarEstudiantes(Estudiante estudiantes);
 	
+	public Estudiante obtenerEstudiantePorId(Long id);
+	
+	public Estudiante actualizarEstudiante(Estudiante estudiante);
+	
+	public void eliminarEstudiante(Long id);
+	
 }

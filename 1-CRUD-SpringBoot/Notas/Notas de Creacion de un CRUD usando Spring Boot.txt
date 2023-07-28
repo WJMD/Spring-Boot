@@ -163,7 +163,36 @@ Con estos pasos, deberías poder agregar nuevos estudiantes desde el formulario 
  y verlos en la lista de estudiantes en la página "estudiantes.html" después de haber sido guardados en la base de datos.
  Recuerda que para que esto funcione correctamente, debes tener una conexión con una base de datos y haber configurado adecuadamente el repositorio y el servicio para interactuar con la base de datos.
 
+34-En la interfaz EstudianteServicio, hemos agregado más acciones relacionadas con la manipulación de estudiantes, como obtener un estudiante por su ID,
+ actualizar un estudiante y eliminar un estudiante por su ID.
 
+35-En la implementación listarTodosLosEstudiantesImpl del servicio, hemos añadido el código para las nuevas acciones definidas en la interfaz.	
+
+	los return de las implementaciones:
+	Obtener : return repositorio.findById(id).get();
+	actualizar :  return repositorio.save(estudiante);
+	eliminar : repositorio.deleteById(id);
+
+36- Vamor al Controlador para crea los metodos correspondiente |Obtener, actualizar y eliminar|.
+37- Método mostrarFormularioDeEditar: Este método se encarga de mostrar el formulario para editar los datos de un estudiante específico. Utiliza la anotación
+ @GetMapping con la ruta "/estudiantes/editar/{id}", donde {id} es el ID del estudiante que se desea editar.
+ El método obtiene los datos del estudiante por su ID utilizando el servicio obtenerEstudiantePorId(id), y luego agrega esos datos al modelo para que
+ puedan ser mostrados en el formulario de edición. El método devuelve la vista "editar_estudiante".
+	
+38-Método actualizarEstudiante: Este método maneja la acción de guardar los cambios realizados en el formulario de edición. Utiliza la anotación @PostMapping
+ con la ruta "/estudiantes/{id}", donde {id} es el ID del estudiante que se está editando. El método recibe los datos del estudiante editado como un objeto Estudiante
+ y el ID del estudiante como un parámetro id. Luego, utiliza el servicio obtenerEstudiantePorId(id) para obtener el estudiante existente por su ID. Después,
+ actualiza los datos del estudiante existente con los datos del estudiante editado y utiliza el servicio actualizarEstudiante(estudianteExistente)
+ para guardar los cambios en la base de datos. Finalmente, redirige a la página de lista de estudiantes.
+
+39- Método eliminarEstudiante: Este método maneja la acción de eliminar un estudiante de la base de datos. Utiliza la anotación @GetMapping con la ruta
+ "/estudiantes/{id}", donde {id} es el ID del estudiante que se desea eliminar. El método recibe el ID del estudiante como un parámetro id y utiliza el
+ servicio eliminarEstudiante(id) para eliminar el estudiante de la base de datos. Luego, redirige a la página de lista de estudiantes.
+	
+	Con estos nuevos métodos, ahora puedes implementar la funcionalidad completa de CRUD (Crear, Leer, Actualizar y Eliminar)
+	 para los estudiantes en tu aplicación web. Los métodos mostrarFormularioDeEditar, actualizarEstudiante y eliminarEstudiante te permiten editar
+	 y eliminar estudiantes existentes. Todo está bien estructurado y organizado en el controlador, lo que debería hacer que tu aplicación sea más robusta y fácil de mantener.
+40-
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ||#2#|| DEPENDENCIAS!
