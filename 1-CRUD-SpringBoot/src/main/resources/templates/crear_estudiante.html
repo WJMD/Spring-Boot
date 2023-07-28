@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
-	<title>Listado de Estudiante</title>
+	<title>Registro de Estudiantes</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
@@ -29,29 +22,39 @@
 				</ul>
 			</div>
 		</nav>
-		<h1 class="titulo">Listado de Estudiante</h1>
 		
 	</header>
 
 	<main class="container">
 		<section class="seccion-contaier">
-			<table class="table table-striped table-bordered">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Nombre</th>
-						<th scope="col">Apellido</th>
-						<th scope="col">Email</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="estudiante : ${estudiantes}">
-						<td th:text="${estudiante.nombre}">Nombre</td>
-						<td th:text="${estudiante.apellido}">Apellido</td>
-						<td th:text="${estudiante.email}">Email</td>
-					</tr>
-				</tbody>
-			</table>
-
+			
+		<div class="row">
+			<div class="col-lg-6 col-sm-6 container justify-content-center card">
+				<h1 class="text-center">Registro de Estudiantes</h1>
+				<div class="card-body">
+					<form th:action="@{/estudiantes}" th:object="${estudiante}"  method="post">
+						<div class="form-group">
+							<label>Nombre</label>
+							<input type="text" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Digite su nombre" required>
+						</div>
+						<br>
+						<div class="form-group">
+							<label>Apellido</label>
+							<input type="text" name="nombre" th:field="*{apellido}" class="form-control" placeholder="Digite su apellido" required>
+						</div>
+						<br>
+						<div class="form-group">
+							<label>email</label>
+							<input type="email" name="nombre" th:field="*{email}" class="form-control" placeholder="Digite su email" required>
+						</div>
+						<br>
+						<div class="box-footer">
+							<button class="btn btn-success">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
 		</section>
 	</main>
@@ -59,12 +62,8 @@
 
 	</footer>
 	<style>
-		.table {
-			border: 2px solid red;
-		}
+		
 	</style>
 </body>
 
-</html>
-</body>
 </html>

@@ -18,5 +18,10 @@ public class listarTodosLosEstudiantesImpl implements EstudianteServicio{
 	public List<Estudiante> listarTodosLosEstudiantes() {
 		return repositorio.findAll();
 	}
+
+	@Override
+	public Estudiante guardarEstudiantes(Estudiante estudiantes) {
+		return repositorio.save(estudiantes);
+	}
  
 }

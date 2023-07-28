@@ -8,4 +8,6 @@ public interface EstudianteServicio {
 
 	public List<Estudiante> listarTodosLosEstudiantes();
 	
+	public Estudiante guardarEstudiantes(Estudiante estudiantes);
+	
 }

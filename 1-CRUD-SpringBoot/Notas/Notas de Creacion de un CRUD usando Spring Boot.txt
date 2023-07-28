@@ -128,9 +128,43 @@ Creacion de un CRUD usando Spring Boot con MySql + Thymeleaf y Bootstrap
 						<td th:text="${estudiante.apellido}">Apellido</td>
 						<td th:text="${estudiante.email}">Email</td>
 					</tr>
-27-vamos a ir al Controlado y creamos un nuevo metodo... este sera del tipo @GetMapping ("/estudiante/nuevo")
+27-vamos a ir al Controlador y creamos un nuevo metodo... este sera del tipo @GetMapping ("/estudiante/nuevo")
 28- el metodo sera un public y del tipo String. este metodo sera para agregar nuevos estudiantes
-29- 
+		asi sera:
+		
+		@GetMapping({"/estudiantes/nuevo"})
+	public String MostrarFormilarioDeRegistrarEstudiante(Model modelo) {
+		Estudiante estudiante = new Estudiante();
+		modelo.addAttribute("estudiante", estudiante);
+		return "crear_estudiante";
+
+29-En el archivo "crear_estudiante.html", dentro del formulario, asegúrate de que el atributo "name" de los campos de entrada coincida con el nombre de los atributos de la
+ clase "Estudiante" (nombre, apellido, email) y que utilices correctamente el atributo "th:field" para enlazar los campos del formulario con el modelo.
+		
+	<form th:action="@{/estudiantes}" th:object="${estudiante}" method="post">
+    		<div class="form-group">
+        		<label>Nombre</label>
+        		<input type="text" name="nombre" th:field="*{nombre}" class="form-control" placeholder="Digite su nombre" required>
+    		</div>
+	</form>
+
+30-En el controlador, hemos agregado un nuevo método con la anotación @PostMapping para manejar el formulario de registro de estudiantes. Este método se encargará
+ de guardar el estudiante en la base de datos y redirigir nuevamente a la página de lista de estudiantes. Asegúrate de importar la
+ anotación @ModelAttribute y la clase "Estudiante" en el controlador.
+
+	asi:
+		public String GuardarEstudiantes(@ModelAttribute("estudiante") Estudiante estudiante)
+31- luego llama a "servicio" con el metodo "guardarEstudiantes()" y le pasamos como valor la varible |estudiante| .
+32- por ultimo realizamos un 'return' con una rediccion al html estudiante. asi : {"redirect:/estudiantes"}
+33- Ahora, cuando envíes el formulario desde la página "crear_estudiante.html", los datos del estudiante se enviarán al controlador a través del método GuardarEstudiantes.
+ El estudiante se guardará en la base de datos utilizando el servicio y el repositorio correspondientes. Luego, se redirigirá a la página de lista de estudiantes utilizando "redirect:/estudiantes".
+
+Con estos pasos, deberías poder agregar nuevos estudiantes desde el formulario "crear_estudiante.html"
+ y verlos en la lista de estudiantes en la página "estudiantes.html" después de haber sido guardados en la base de datos.
+ Recuerda que para que esto funcione correctamente, debes tener una conexión con una base de datos y haber configurado adecuadamente el repositorio y el servicio para interactuar con la base de datos.
+
+
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ||#2#|| DEPENDENCIAS!
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
