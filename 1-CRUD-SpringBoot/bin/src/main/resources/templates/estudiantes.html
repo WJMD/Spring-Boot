@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Listado de Estudiante</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
@@ -21,27 +22,18 @@
 				</ul>
 			</div>
 		</nav>
-		
+		<h1 class="titulo">Listado de Estudiante</h1>
 		
 	</header>
 
 	<main class="container">
-		<div class="row">
-			<h1 class="titulo center">Listado de Estudiante</h1>
-		</div>
-		<div class="row">
-			<div clas="col-log-3 btnagregar" >
-				<a th:href="@{/estudiantes/nuevo}" class="btn btn-primary btn-sn mb3">Agregar Estudiante</a>
-			</div>
-		</div>
-		<br>
+		<section class="seccion-contaier">
 			<table class="table table-striped table-bordered">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">Nombre</th>
 						<th scope="col">Apellido</th>
 						<th scope="col">Email</th>
-						<th scope="col">Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -49,19 +41,21 @@
 						<td th:text="${estudiante.nombre}">Nombre</td>
 						<td th:text="${estudiante.apellido}">Apellido</td>
 						<td th:text="${estudiante.email}">Email</td>
-						<td >
-							<a th:href="@{/estudiantes/editar/{id}(id=${estudiante.id})}" class="btn btn-info">Editar</a>
-							<a th:href="@{/estudiantes/{id}(id=${estudiante.id})}" class="btn btn-danger">Eliminar</a>
-						</td>
 					</tr>
 				</tbody>
 			</table>
 
 
+		</section>
 	</main>
 	<footer class="conteiner-Footer">
 
 	</footer>
+	<style>
+		.table {
+			border: 2px solid red;
+		}
+	</style>
 </body>
 
 </html>

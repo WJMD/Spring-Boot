@@ -1,0 +1,510 @@
+## Creación de un CRUD usando Spring Boot con MySQL + Thymeleaf y Bootstrap
+
+### 1. Crear proyecto:
+	- Tipo: Spring Starter Project
+	- Nombre: CRUD en Spring Boot
+
+### 2. Seleccionar estas dependencias:
+	- Spring Data JPA
+	- Thymeleaf
+	- Spring Web
+	- Spring Boot DevTools
+	- MySQL Driver
+
+**Explicación de las dependencias:**
+	- Spring Data JPA: Facilita la interacción con la base de datos utilizando JPA (Java Persistence API).
+	- Thymeleaf: Motor de plantillas para renderizar vistas HTML.
+	- Spring Web: Permite la creación de controladores web y la gestión de solicitudes HTTP.
+	- Spring Boot DevTools: Proporciona herramientas de desarrollo para mejorar la productividad.
+	- MySQL Driver: Controlador JDBC para la base de datos MySQL.
+
+### 3. Crear Base de datos
+	Crear una base de datos llamada `db-crud-springboot`.
+
+### 4. Crear la conexión a la base de datos
+	Configurar la conexión a la base de datos en el archivo `application.properties`.
+
+### 5. Crear una nueva entidad
+	Crear un paquete llamado `entidad` y dentro de él, crear una clase llamada `Estudiante`. Agregar las anotaciones `@Entity` y `@Table(name = "estudiantes")`.
+
+	#### A) Crear las variables para las columnas de la tabla de la base de datos
+
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
+
+		@Column(name = "nombre", nullable = false, length = 50)
+		private String nombre;
+
+		@Column(name = "apellido", nullable = false, length = 50)
+		private String apellido;
+
+		@Column(name = "email", nullable = false, length = 50, unique = true)
+		private String email;
+
+
+	#### B) Crear constructores
+
+		// Constructor vacío
+		public Estudiante() {}
+
+		// Constructor con todos los valores
+		public Estudiante(String nombre, String apellido, String email) {
+    			this.nombre = nombre;
+    			this.apellido = apellido;
+    			this.email = email;
+		}
+
+		// Constructor con todos los valores excepto el ID
+		public Estudiante(String nombre, String apellido, String email) {
+    			this.nombre = nombre;
+   			 this.apellido = apellido;
+   			 this.email = email;
+		}
+
+
+#### C) Crear setters y getters
+
+// Getters y Setters
+
+
+### 8. Crear un nuevo paquete llamado `servicio` para las interfaces.
+
+### 9. Crear una interfaz llamada `EstudianteServicio`
+```java
+public interface EstudianteServicio {
+    List<Estudiante> listarTodosLosEstudiantes();
+}
+```
+
+### 10. Crear una clase llamada `ListarTodosLosEstudiantesImpl` que implemente `EstudianteServicio`.
+```java
+@Service
+public class ListarTodosLosEstudiantesImpl implements EstudianteServicio {
+
+    private final EstudianteRepositorio repositorio;
+
+    @Autowired
+    public ListarTodosLosEstudiantesImpl(EstudianteRepositorio repositorio) {
+        this.repositorio = repositorio;
+    }
+
+    @Override
+    public List<Estudiante> listarTodosLosEstudiantes() {
+        return repositorio.findAll();
+    }
+}
+```
+
+### 11. Crear un nuevo paquete llamado `repositorio` para los repositorios.
+
+### 12. Crear una interfaz llamada `EstudianteRepositorio` y agregar la anotación `@Repository`.
+```java
+@Repository
+public interface EstudianteRepositorio extends JpaRepository<Estudiante, Long> {
+}
+```
+
+### 16. Crear una clase llamada `EstudianteController` y agregar la anotación `@Controller`.
+
+### 17. Inyectar `EstudianteServicio` en el controlador.
+```java
+@Controller
+public class EstudianteController {
+
+    private final EstudianteServicio servicio;
+
+    @Autowired
+    public EstudianteController(EstudianteServicio servicio) {
+        this.servicio = servicio;
+    }
+}
+```
+
+### 18. Crear el método `listarEstudiantes` para mostrar la lista de estudiantes.
+```java
+@GetMapping({"/estudiantes", "/"})
+public String listarEstudiantes(Model modelo) {
+    modelo.addAttribute("estudiantes", servicio.listarTodosLosEstudiantes());
+    return "estudiantes";
+}
+```
+
+### 27. Crear el método `mostrarFormularioDeRegistrarEstudiante` para mostrar el formulario de registro de estudiantes.
+```java
+@GetMapping("/estudiantes/nuevo")
+public String mostrarFormularioDeRegistrarEstudiante(Model modelo) {
+    Estudiante estudiante = new Estudiante();
+    modelo.addAttribute("estudiante", estudiante);
+    return "crear_estudiante";
+}
+```
+
+### 28. Crear el archivo HTML "crear_estudiante.html" para el formulario de registro de estudiantes.
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Estudiante</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <header class="container-header">
+        <!-- Barra de navegación -->
+    </header>
+
+    <main class="container">
+        <section class="seccion-container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 container justify-content-center card">
+                    <h1 class="text-center">Registrar Estudiante</h1>
+                    <div class="card-body">
+                        <form th:action="@{/estudiantes}" th:object="${estudiante}" method="post">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" th:field="*{nombre}" class="form-control"
+                                    placeholder="Digite su nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido</label>
+                                <input type="text" name="apellido" th:field="*{apellido}" class="form-control"
+                                    placeholder="Digite su apellido" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" th:field="*{email}" class="form-control"
+                                    placeholder="Digite su email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+```
+
+### 30. Crear el método `guardarEstudiante` para procesar el formulario de registro de estudiantes.
+
+```java
+@PostMapping("/est
+
+udiantes")
+public String guardarEstudiante(@ModelAttribute("estudiante") Estudiante estudiante) {
+    servicio.guardarEstudiante(estudiante);
+    return "redirect:/estudiantes";
+}
+```
+
+### 37. Crear el método `mostrarFormularioDeEditar` para mostrar el formulario de edición de estudiantes.
+
+```java
+@GetMapping("/estudiantes/editar/{id}")
+public String mostrarFormularioDeEditar(@PathVariable Long id, Model modelo) {
+    Estudiante estudiante = servicio.obtenerEstudiantePorId(id);
+    modelo.addAttribute("estudiante", estudiante);
+    return "editar_estudiante";
+}
+```
+
+### 38. Crear el archivo HTML "editar_estudiante.html" para el formulario de edición de estudiantes.
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Estudiante</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <header class="container-header">
+        <!-- Barra de navegación -->
+    </header>
+
+    <main class="container">
+        <section class="seccion-container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 container justify-content-center card">
+                    <h1 class="text-center">Editar Estudiante</h1>
+                    <div class="card-body">
+                        <form th:action="@{/estudiantes/{id}(id=${estudiante.id})}" th:object="${estudiante}"
+                            method="post">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" th:field="*{nombre}" class="form-control"
+                                    placeholder="Digite su nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido</label>
+                                <input type="text" name="apellido" th:field="*{apellido}" class="form-control"
+                                    placeholder="Digite su apellido" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" th:field="*{email}" class="form-control"
+                                    placeholder="Digite su email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+```
+
+### 39. Crear el método `actualizarEstudiante` para procesar el formulario de edición de estudiantes.
+
+```java
+@PostMapping("/estudiantes/{id}")
+public String actualizarEstudiante(@PathVariable Long id, @ModelAttribute("estudiante") Estudiante estudiante) {
+    Estudiante estudianteExistente = servicio.obtenerEstudiantePorId(id);
+    estudianteExistente.setNombre(estudiante.getNombre());
+    estudianteExistente.setApellido(estudiante.getApellido());
+    estudianteExistente.setEmail(estudiante.getEmail());
+    servicio.actualizarEstudiante(estudianteExistente);
+    return "redirect:/estudiantes";
+}
+```
+
+### 40. Crear el método `eliminarEstudiante` para eliminar un estudiante de la base de datos.
+
+```java
+@GetMapping("/estudiantes/{id}")
+public String eliminarEstudiante(@PathVariable Long id) {
+    servicio.eliminarEstudiante(id);
+    return "redirect:/estudiantes";
+}
+```
+
+Con estas modificaciones, la documentación es más clara, concisa y fácil de seguir. Además, se han seguido las convenciones de nombres adecuadas y se han corregido posibles errores gramaticales o de ortografía. La estructura del código también está mejor organizada, lo que mejora la legibilidad y comprensión del proyecto. Recuerda que siempre es útil incluir diagramas o imágenes para ilustrar la arquitectura y las relaciones entre los componentes si es posible. ¡Buena suerte con tu proyecto!
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+||#2#|| DEPENDENCIAS!
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Explicacion de las dependencias utilizadas en este proyecto.
+// sobre de que son, para que se utlizan.
+
+	Spring Data JPA:
+
+Uso: Spring Data JPA es un módulo de Spring que simplifica el acceso y la manipulación 
+de bases de datos relacionales utilizando JPA (Java Persistence API).
+
+Descripción: Permite crear fácilmente repositorios y consultas basadas en métodos para interactuar 
+con la base de datos. Abstrae gran parte de la lógica de acceso a datos y facilita la implementación de 
+operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sin la necesidad de escribir consultas SQL personalizadas.
+
+	Thymeleaf:
+
+Uso: Thymeleaf es un motor de plantillas para generar vistas HTML en aplicaciones web de Spring Boot.
+
+Descripción: Permite la integración de plantillas HTML con contenido dinámico utilizando sintaxis simple y legible. 
+Thymeleaf se puede utilizar tanto en el lado del cliente (renderizado en el navegador) como en el lado del servidor 
+(pre-renderizado en el servidor antes de enviar la respuesta al cliente).
+
+	Spring Web:
+
+Uso: Spring Web es un módulo que proporciona funcionalidades para desarrollar aplicaciones web en Spring Boot.
+
+Descripción: Ofrece una amplia variedad de características para crear aplicaciones web, como el manejo de solicitudes HTTP, 
+la creación de controladores y el soporte para la construcción de RESTful APIs. Esencialmente, es la base para construir aplicaciones web en Spring Boot.
+
+	Spring Boot DevTools:
+
+Uso: Spring Boot DevTools es una herramienta diseñada para mejorar la productividad en el desarrollo de aplicaciones Spring Boot.
+
+Descripción: Proporciona diversas funcionalidades, como la reinicialización automática de la aplicación cuando se realizan cambios 
+en el código fuente (live reload), la configuración automática de entornos de desarrollo, la habilitación de perfiles específicos, entre otras. 
+Estas características facilitan el ciclo de desarrollo y la detección temprana de problemas.
+
+	MySQL Driver:
+
+Uso: El MySQL Driver es una dependencia que permite la conexión y comunicación con una base de datos MySQL desde una aplicación de Spring Boot.
+
+Descripción: El driver actúa como un puente entre la aplicación y la base de datos MySQL, permitiendo enviar y recibir datos entre ambos. 
+Es esencial para que la aplicación pueda interactuar con la base de datos MySQL específica que esté configurada.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#4#||
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Explicacion sobre la configuracion sobre la conexion a la base de datos con el proyecto en application.propierties
+	
+	-Esta es la configuracion de los propierties utilizando una bade datos en la nube:
+
+	spring.datasource.username = gaasm9v8qhf2jk3y4c43
+	spring.datasource.password = pscale_pw_C29VDk0vhj9sNoECaMvLGvcszUOjNWgSdgOccPXncC4
+
+	# Hibernate Properties
+	# The SQL dialect makes Hibernate generate better SQL for the chosen database
+	spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+
+
+	# Hibernate ddl auto (create, create-drop, validate, update)
+	spring.jpa.hibernate.ddl-auto = create
+
+	spring.jpa.show-sql=true
+	spring.jpa.properties.hibernate.format_sql=true
+
+--Explicacion breve de cada linea para entender su funcionamiento y para que utilizan
+
+	spring.datasource.url: 
+Esta propiedad define la URL de conexión a la base de datos. En este caso, se utiliza el protocolo JDBC para conectarse a una base de datos MySQL.
+La URL debe contener la información necesaria para acceder a la base de datos en la nube, como el host, puerto y nombre de la base de datos.
+
+	spring.datasource.username:
+Aquí se especifica el nombre de usuario para acceder a la base de datos. Es el nombre de usuario que se utilizará 
+para autenticarse en el servidor de la base de datos.
+
+	spring.datasource.password:
+Esta línea contiene la contraseña que corresponde al nombre de usuario proporcionado. Es la contraseña que se utilizará 
+para autenticar la conexión con el servidor de la base de datos.
+
+	spring.jpa.properties.hibernate.dialect:
+Esta propiedad define el dialecto de SQL que usará Hibernate para generar consultas específicas del motor de base de datos.
+ En este caso, se configura para utilizar el dialecto de MySQL.
+
+	spring.jpa.hibernate.ddl-auto:
+Esta línea configura la forma en que Hibernate manejará el esquema de la base de datos. En este caso, se establece en "update", 
+lo que significa que Hibernate actualizará automáticamente la estructura de la base de datos para que coincida con las entidades (tablas) 
+definidas en el código Java. Sin embargo, ten en cuenta que esta configuración está destinada para desarrollo, y en producción, es recomendable 
+utilizar "validate" o "none" para evitar modificaciones accidentales de la estructura de la base de datos.
+
+	logging.level.org.hibernate.SQL:
+Esta propiedad configura el nivel de registro para las consultas SQL generadas por Hibernate. En este caso, se establece en "DEBUG", 
+lo que significa que se registrarán las consultas SQL en el nivel de depuración.
+
+	logging.level.org.hibernate.type:
+Esta línea configura el nivel de registro para los parámetros de las consultas SQL generadas por Hibernate. En este caso, se establece en "TRACE", 
+lo que significa que se registrarán los parámetros de las consultas SQL en el nivel de traza.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#7.1#|| Entidad Estudiante -->Entidades
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Las entidades en el contexto de Java y JPA (Java Persistence API) son clases que representan tablas de bases de datos y permiten mapear los datos
+ almacenados en esas tablas a objetos de Java. En tu caso, has creado una entidad llamada "Estudiante" que representa la tabla "estudiantes" en la base de datos.
+
+Vamos a describir el uso y significado de cada anotación y campo en la clase "Estudiante":
+
+1. `@Entity`: Esta anotación marca la clase "Estudiante" como una entidad de JPA. Indica que esta clase se asociará con una tabla en la base de datos.
+
+2. `@Table(name="estudiantes")`: Esta anotación especifica el nombre de la tabla en la base de datos con la que se mapeará la entidad "Estudiante".
+	 En este caso, la tabla se llama "estudiantes".
+
+3. `@Id`: Esta anotación marca el campo "id" como la clave primaria de la tabla. La clave primaria es un valor único que identifica de forma única cada registro en la tabla.
+
+4. `@GeneratedValue(strategy = GenerationType.IDENTITY)`: Esta anotación especifica cómo se generará automáticamente el valor del campo "id" al insertar un nuevo registro en la tabla.
+	 En este caso, se utiliza "GenerationType.IDENTITY", que generalmente se asocia con columnas de autoincremento en la base de datos. Cuando se inserta un nuevo registro,
+	 la base de datos se encargará de asignar automáticamente un valor único al campo "id".
+
+5. `@Column`: Esta anotación se utiliza para mapear el campo de la entidad a una columna en la tabla de la base de datos. Aquí, se definen varias propiedades para la columna:
+   - `name = "nombre"`: El nombre de la columna en la tabla se establece como "nombre".
+   - `nullable = false`: Indica que el campo "nombre" no puede contener valores nulos en la base de datos.
+   - `length = 50`: Define la longitud máxima de caracteres que puede tener el campo "nombre".
+
+6. `private String nombre;`: Este campo representa la columna "nombre" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el nombre del estudiante.
+
+7. `private String apellido;`: Este campo representa la columna "apellido" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el apellido del estudiante.
+
+8. `private String email;`: Este campo representa la columna "email" en la tabla "estudiantes". Es un atributo de tipo String que almacenará el correo electrónico del estudiante.
+ La anotación `unique = true` garantiza que cada dirección de correo electrónico sea única en la tabla.
+
+En resumen, la clase "Estudiante" es una entidad de JPA que representa la tabla "estudiantes" en la base de datos. Los campos de la clase se mapean a columnas en la tabla, y
+ las anotaciones proporcionan información adicional sobre cómo se debe realizar el mapeo. Al utilizar JPA y Hibernate (un proveedor de JPA), puedes interactuar con la base de
+ datos utilizando objetos Java, lo que facilita el desarrollo y mantenimiento de aplicaciones relacionales.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#7.2#|| Entidad Estudiante --> Constructores
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+La creación de dos constructores en la clase entidad, uno vacío y otro que acepta todas las variables, es una práctica común y puede tener varias razones:
+
+1. **Requerimientos de JPA y Hibernate**: JPA y los proveedores de JPA, como Hibernate, necesitan un constructor vacío para instanciar las entidades cuando se recuperan de la base de datos.
+ Sin un constructor vacío, JPA no podrá crear instancias de la clase y mapear los datos desde la base de datos. Por lo tanto, es obligatorio proporcionar un constructor sin argumentos.
+
+2. **Facilitar la creación de instancias**: Proporcionar un constructor que acepte todas las variables facilita la creación de instancias de la entidad cuando se quieren insertar nuevos
+ registros en la base de datos. Con un constructor que toma todas las variables, puedes crear objetos "Estudiante" y establecer todas sus propiedades de manera concisa en una sola línea de código.
+
+3. **Inmutabilidad y Validaciones**: Si la clase entidad tiene atributos que no deberían cambiar después de la creación del objeto (por ejemplo, el "id" generado automáticamente),
+ es posible marcar esos atributos como `final` y solo establecerlos a través del constructor. Esto garantiza la inmutabilidad de esos atributos y evita modificaciones accidentales.
+
+4. **Uso de Builder o Patrón Factory**: Al proporcionar un constructor que acepta todas las variables, es más fácil implementar patrones como el patrón Builder o Factory. Estos patrones
+ permiten una creación más flexible y estructurada de objetos complejos.
+
+5. **Claridad y Legibilidad del Código**: Proporcionar ambos constructores puede mejorar la legibilidad del código y facilitar su comprensión para otros desarrolladores. Al tener ambas opciones,
+ el código se vuelve más expresivo y claro sobre cómo se pueden crear instancias de la clase.
+
+En resumen, al proporcionar un constructor vacío y otro que acepte todas las variables, aseguras que la clase entidad cumpla con los requisitos de JPA y facilita la creación de instancias de la entidad,
+ al tiempo que permite mantener una estructura más clara y expresiva del código. Es una buena práctica seguir esta convención para asegurar la correcta interacción entre JPA y las entidades y
+ para mejorar la legibilidad y mantenibilidad del código.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#23.1#|| el prefijo "th:" de Thymeleaf
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+El prefijo "th:" en Thymeleaf se utiliza para identificar y procesar atributos y expresiones específicas de Thymeleaf dentro de las plantillas HTML. Thymeleaf es un motor de plantillas
+ que se integra con Java y se utiliza principalmente en aplicaciones web basadas en el framework Spring.
+
+El prefijo "th:" es una abreviatura de "Thymeleaf" y es el marcador que Thymeleaf utiliza para distinguir sus atributos y expresiones de otras directivas o atributos HTML estándar.
+ Cuando Thymeleaf procesa una plantilla, busca atributos que comiencen con "th:" y los evalúa de manera especial, reemplazando el contenido según las reglas definidas.
+
+A continuación, se presentan algunos ejemplos de cómo se utiliza el prefijo "th:" en Thymeleaf:
+
+th:text: Se utiliza para establecer el contenido de un elemento HTML con una expresión de Thymeleaf. Por ejemplo: <p th:text="${usuario.nombre}">Nombre del usuario</p>
+ establecerá el contenido del párrafo con el nombre del usuario.
+
+th:if y th:unless: Se utilizan para condicionar la visualización de elementos HTML según una condición. Por ejemplo: <div th:if="${usuario.admin}">Contenido para administradores</div>
+ mostrará el div solo si el atributo "admin" del objeto "usuario" es verdadero.
+
+th:each: Se utiliza para iterar sobre una lista y generar contenido HTML para cada elemento. Por ejemplo:
+
+	<ul>
+    		<li th:each="producto : ${productos}" th:text="${producto.nombre}"></li>
+	</ul>
+	
+Generará una lista con los nombres de cada producto en la lista "productos".
+
+th:href y th:src: Se utilizan para establecer los atributos "href" y "src" de elementos como enlaces e imágenes, respectivamente. Estos atributos pueden ser dinámicos usando expresiones de Thymeleaf.
+ Por ejemplo: <a th:href="@{/productos/${producto.id}}">Detalles del producto</a> generará un enlace dinámico a la página de detalles del producto con el ID del producto correspondiente.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+||#[@ANOTACIONES]#|| 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	@Entity:
+ Esta anotación se utiliza en la clase Estudiante para indicar que la clase es una entidad JPA, es decir, representa una tabla en la base de datos.
+
+	@Table(name="estudiantes"): Se usa junto con @Entity para especificar el nombre de la tabla en la base de datos que está representada por la entidad Estudiante.
+
+	@Id: Esta anotación se aplica al campo id en la clase Estudiante para indicar que es el identificador principal de la entidad.
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY): Esta anotación se usa junto con @Id para indicar que el valor del campo id se generará automáticamente (autoincremental) en la base de datos.
+
+	@Column(name = "nombre", nullable = false, length=50): Se aplica a los campos nombre, apellido y email para definir sus atributos en la base de datos, como el nombre de la columna, si es nulo o no, y su longitud máxima.
+
+	@Service: Se aplica a la clase ListarTodosLosEstudiantesImpl para indicar que es un componente de servicio de Spring. Es una anotación de componente de Spring utilizada para indicar que la clase es un bean de servicio que realiza alguna lógica de negocio.
+
+	@Autowired: Se utiliza para inyectar automáticamente las dependencias (en este caso, el repositorio EstudianteRepositorio) en la clase ListarTodosLosEstudiantesImpl. Esto evita la necesidad de crear manualmente una instancia del repositorio y lo hace disponible para su uso en la clase.
+
+	@Repository: Se aplica a la interfaz EstudianteRepositorio para indicar que es un componente de repositorio de Spring. Es una anotación de componente de Spring utilizada para indicar que la interfaz es un bean de repositorio que interactúa con la base de datos.
+
+	@GetMapping: Se utiliza en el controlador EstudianteControlador para mapear las solicitudes HTTP GET a los métodos del controlador. Se define la URL ("/estudiantes") a la que responderá el método listarEstudiantes.
+
+	@PostMapping: Similar a @GetMapping, se usa en el controlador para mapear las solicitudes HTTP POST a los métodos del controlador. Por ejemplo, el método GuardarEstudiantes maneja la acción de guardar un nuevo estudiante.
+
+	@ModelAttribute: Se aplica al parámetro estudiante del método GuardarEstudiantes en el controlador para enlazar el objeto Estudiante con los datos enviados desde el formulario de registro en la vista.
+
+	Estas anotaciones son fundamentales para el funcionamiento del proyecto, ya que establecen relaciones entre los componentes de Spring (controladores, servicios, repositorios) y permiten la interacción con la base de datos a través de Spring Data JPA.

@@ -9,7 +9,7 @@ import com.app.web.entidad.Estudiante;
 import com.app.web.repositorio.EstudianteRepositorio;
 
 @Service
-public class listarTodosLosEstudiantesImpl implements EstudianteServicio {
+public class EstudianteServicioImpl implements EstudianteServicio {
 
 	@Autowired
 	private EstudianteRepositorio repositorio;

@@ -1,0 +1,10 @@
+
+	Base de datos en la nube con [Planet-Scale]
+
+main: main-2023-07-25-g4svki
+branch : main
+role: Admin
+database: db-crud-springboot
+username: gaasm9v8qhf2jk3y4c43
+host: aws.connect.psdb.cloud
+password: pscale_pw_C29VDk0vhj9sNoECaMvLGvcszUOjNWgSdgOccPXncC4
