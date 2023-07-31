@@ -8,11 +8,11 @@
 		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.agenda.contatos</groupId>
+	<groupId>com.agenda.contactos</groupId>
 	<artifactId>2-Agenda-Contactos-SpringBoot</artifactId>
 	<version>3.1.2</version>
 	<name>2-Agenda-Contactos-SpringBoot</name>
-	<description>Demo project for Spring Boot</description>
+	<description>2-Desarrollo de una agenda de contactos en Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
