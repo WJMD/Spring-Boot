@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sistema.inventario</groupId>
-	<artifactId>3-Gestion-Productos-SpringBoot</artifactId>
+	<artifactId>4-Sistema-Inventario-SpringBoot</artifactId>
 	<version>3.1.2</version>
-	<name>3-Gestion-Productos-SpringBoot</name>
-	<description>3-Desarrollo de una búsqueda de filtros y CRUD con Spring Data JPA , Hibernate , MySQL y Thymeleaf</description>
+	<name>4-Sistema-Inventario-SpringBoot</name>
+	<description>4-Curso básico de relaciones entre tablas en Spring Boot con Thymeleaf , MySQL , Hibernate y JUnit</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

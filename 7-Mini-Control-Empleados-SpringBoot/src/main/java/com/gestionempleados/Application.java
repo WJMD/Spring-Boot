@@ -1,4 +1,4 @@
-package com.gention.productos;
+package com.gestionempleados;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
