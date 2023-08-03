@@ -11,25 +11,25 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Contactos")
-public class contacto {
+public class Contacto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nombre", nullable = false, length = 50)
+	//@Column(name = "nombre", nullable = false, length = 50)
 	private String nombre;
 
-	@Column(name = "celular", nullable = false, length = 50)
+	//@Column(name = "celular", nullable = false, length = 50)
 	private String celular;
 
-	@Column(name = "emain", nullable = false, length = 50, unique = true)
+	//@Column(name = "email", nullable = false, length = 50, unique = true)
 	private String email;
 
-	@Column(name = "fechaNacimiento", nullable = false, length = 50)
+	//@Column(name = "fechaNacimiento", nullable = false, length = 50)
 	private LocalDate fechaNacimiento;
 
-	@Column(name = "fechaRegistro", nullable = false, length = 50)
+	//@Column(name = "fechaRegistro", nullable = false, length = 50)
 	private LocalDateTime fechaRegistro;
 
 	public Integer getId() {
@@ -80,11 +80,11 @@ public class contacto {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public contacto() {
+	public Contacto() {
 		super();
 	}
 
-	public contacto(Integer id, String nombre, String celular, String email, LocalDate fechaNacimiento,
+	public Contacto(Integer id, String nombre, String celular, String email, LocalDate fechaNacimiento,
 			LocalDateTime fechaRegistro) {
 		super();
 		this.id = id;
@@ -95,7 +95,7 @@ public class contacto {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public contacto(String nombre, String celular, String email, LocalDate fechaNacimiento,
+	public Contacto(String nombre, String celular, String email, LocalDate fechaNacimiento,
 			LocalDateTime fechaRegistro) {
 		super();
 		this.nombre = nombre;

@@ -3,6 +3,6 @@ package com.agenda.contactos.servicio;
 import org.springframework.stereotype.Service;
 
 @Service
-public class contactoSercivio {
+public class ContactoSercivio {
 
 }

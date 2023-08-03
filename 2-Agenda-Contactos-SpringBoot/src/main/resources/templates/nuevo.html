@@ -31,25 +31,25 @@
 			<div class="col-lg-6 col-sm-6 container justify-content-center card">
 				<h1 class="text-center">Registro de Estudiantes</h1>
 				<div class="card-body">
-					<form   method="post">
+					<form   method="post" th:object="${contacto}">
 						<div class="form-group">
 							<label for="nombre">Nombre</label>
-							<input id="nombre" type="text" placeholder="Digite su nombre" required>
+							<input id="nombre" type="text" placeholder="Digite su nombre"  th:field="*{nombre}">
 						</div>
 						<br>
 						<div class="form-group">
 							<label for="celular">celular</label>
-							<input id="celular" type="text" placeholder="Digite su celular" required>
+							<input id="celular" type="text" placeholder="Digite su celular"  th:field="*{celular}">
 						</div>
 						<br>
 						<div class="form-group">
 							<label for="email">email</label>
-							<input id="email" type="email" placeholder="Digite su email" required>
+							<input id="email" type="email" placeholder="Digite su email"  th:field="*{email}">
 						</div>
 						
 						<div class="form-group">
-							<label for="fechaNacimiento">Fecha nacimiento</label>
-							<input id="email" type="date">
+							<label for="fechaNacimiento" >Fecha nacimiento : : </label>
+							<input id="email" type="date" th:field="*{fechaNacimiento}">
 						</div>
 						<br>
 						<div class="box-footer">
