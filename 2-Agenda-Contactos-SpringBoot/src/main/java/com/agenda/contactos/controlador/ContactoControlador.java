@@ -1,5 +1,7 @@
 package com.agenda.contactos.controlador;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,9 @@ public class ContactoControlador {
 	private ContactoRepositorio contactoRepositorio;
 	
 	@GetMapping({"/",""})
-	public String verPaginaDeInicio() {
+	public String verPaginaDeInicio(Model modelo) {
+		List<Contacto> contactos = contactoRepositorio.findAll();
+		modelo.addAttribute("contactos", contactos);
 		return "index";
 	}
 	
