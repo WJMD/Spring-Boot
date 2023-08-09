@@ -53,16 +53,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="contactos : ${Contacto}">
-						<th>ID</th>
-						<th>Nombre</th>
-						<th>Celular</th>
-						<th>Eamil</th>
-						<th>F.Nacimineto</th>
-						<th>F.Registro</th>
-						<td th:text="$contactos.nombre}">Nombre</td>
-						<td th:text="${contactos.celular}">Apellido</td>
-						<td th:text="${contactos.email}">Email</td>
+					<tr th:each="contacto : ${contactos}">
+						<td th:text="${contacto.id}"></td>
+						<td th:text="${contacto.nombre}"></td>
+						<td th:text="${contacto.celular}"></td>
+						<td th:text="${contacto.email}"></td>
+						<td th:text="${contacto.fechaNacimiento}"></td>
+						<td th:text="${contacto.fechaRegistro}"></td>
+						
 						
 					</tr>
 				</tbody>

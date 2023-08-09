@@ -2,12 +2,21 @@ package com.agenda.contactos.modelo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 @Entity
 @Table(name = "Contactos")
@@ -18,15 +27,21 @@ public class Contacto {
 	private Integer id;
 
 	//@Column(name = "nombre", nullable = false, length = 50)
+	@NotBlank(message = "Debe ingresar su nombre")
 	private String nombre;
 
 	//@Column(name = "celular", nullable = false, length = 50)
+	@NotBlank(message = "Debe ingresar su celular")
 	private String celular;
 
 	//@Column(name = "email", nullable = false, length = 50, unique = true)
+	@NotEmpty(message = "Debe ingresar su email")
 	private String email;
 
 	//@Column(name = "fechaNacimiento", nullable = false, length = 50)
+	@DateTimeFormat(iso = ISO.DATE)
+	@Past
+	@NotNull
 	private LocalDate fechaNacimiento;
 
 	//@Column(name = "fechaRegistro", nullable = false, length = 50)
@@ -78,6 +93,11 @@ public class Contacto {
 
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+	
+	@PrePersist
+	public void asignarFechaRegistro() {
+		fechaRegistro = LocalDateTime.now();
 	}
 
 	public Contacto() {
