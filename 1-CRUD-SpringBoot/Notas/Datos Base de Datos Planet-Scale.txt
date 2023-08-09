@@ -9,3 +9,9 @@ username: u2rot8zyo1vemfhchra8
 host: aws.connect.psdb.cloud
 password: pscale_pw_1SVyH22rKhmn39gSDuggi5ffryA96a9B9CLK9vIcagC
 
+adel
+
+database: db-crud-springboot
+username: d4hw1f0ufsediqaqcnov
+host: aws.connect.psdb.cloud
+password: pscale_pw_SLNjU4n7qaOq25QQTqgxMG4CCUleXaRzXH9moqZV63E
