@@ -6,8 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.agenda.contactos.modelo.Contacto;
 
 @Repository
-public interface ContactoRepositorio extends JpaRepository<Contacto, Integer>{
- 
-	
-	
+public interface ContactoRepositorio extends JpaRepository<Contacto, Integer>{	
 }

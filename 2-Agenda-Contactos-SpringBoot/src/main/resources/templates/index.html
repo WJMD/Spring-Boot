@@ -50,6 +50,7 @@
 						<th>Eamil</th>
 						<th>F.Nacimineto</th>
 						<th>F.Registro</th>
+						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,10 +59,18 @@
 						<td th:text="${contacto.nombre}"></td>
 						<td th:text="${contacto.celular}"></td>
 						<td th:text="${contacto.email}"></td>
-						<td th:text="${contacto.fechaNacimiento}"></td>
-						<td th:text="${contacto.fechaRegistro}"></td>
+						<td th:text="${#temporals.format(contacto.fechaNacimiento, 'dd/MM/YYYY')}"></td>
+						<td th:text="${#temporals.format(contacto.fechaRegistro, 'dd/MM/YYYY hh:mm a')}"></td>
 						
-						
+							<td>
+							<a th:href="@{/{id}/editar (id=${contacto.id})}" >Editar</a>
+							<a href="#" onclick="eliminarContacto(this)" >Eliminar</a>
+							
+							<form th:action> 
+							
+							</form>
+							</td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -72,5 +81,20 @@
 
 	</footer>
 </body>
-
+	 	<script > 
+	 	
+	 	function eliminarContacto(elemento){
+	 		var ok = confirm('Estas seguro de eliminar al contacto?');
+	 		
+	 		if(ok){
+	 			elemento.nextElementSibling.sumbit();
+	 		}else{
+	 			aler('No Se pudo');
+	 		}
+	 	}
+	 	
+ 		</script>
 </html>
+
+
+
