@@ -64,9 +64,9 @@
 						
 							<td>
 							<a th:href="@{/{id}/editar (id=${contacto.id})}" >Editar</a>
-							<a href="#" onclick="eliminarContacto(this)" >Eliminar</a>
+							<a href="#" onclick="eliminarContacto(this)"> Eliminar</a>
 							
-							<form th:action> 
+							<form th:action="@{/{id}/eliminar (id=${contacto.id})}" method="post"> 
 							
 							</form>
 							</td>
@@ -87,7 +87,7 @@
 	 		var ok = confirm('Estas seguro de eliminar al contacto?');
 	 		
 	 		if(ok){
-	 			elemento.nextElementSibling.sumbit();
+	 			elemento.nextElementSibling.submit();
 	 		}else{
 	 			aler('No Se pudo');
 	 		}
