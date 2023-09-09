@@ -63,8 +63,8 @@
 						<td th:text="${#temporals.format(contacto.fechaRegistro, 'dd/MM/YYYY hh:mm a')}"></td>
 						
 							<td>
-							<a th:href="@{/{id}/editar (id=${contacto.id})}" >Editar</a>
-							<a href="#" onclick="eliminarContacto(this)"> Eliminar</a>
+							<a th:href="@{/{id}/editar (id=${contacto.id})}"  class="btn btn-info" >Editar</a>
+							<a href="#" onclick="eliminarContacto(this)"  class="btn btn-danger"> Eliminar</a>
 							
 							<form th:action="@{/{id}/eliminar (id=${contacto.id})}" method="post"> 
 							
